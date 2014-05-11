@@ -22,7 +22,7 @@ exports.setup = function(callback) {
   log.debug("is http thread? " + is_http_thread);
 
   if (isClusterMaster) {
-    require('../clustering').setup();
+    require('nodebootstrap-clustering').setup();
   }
 
   if (is_http_thread) {
