@@ -59,7 +59,7 @@ exports.setup = function(callback) {
     var root_dir = require('path').dirname(module.parent.filename);
     pub_dir = root_dir + pub_dir;
 
-    app.use(require('less-middleware')({ src: pub_dir }));
+    app.use(require('less-middleware')(pub_dir ));
     app.use(express.static(pub_dir));
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   }
