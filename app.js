@@ -36,19 +36,26 @@ exports.setup = function(callback) {
 
   //-------
 
-  app.use(express.compress());
+  /** http://webapplog.com/migrating-express-js-3-x-to-4-x-middleware-route-and-other-changes/ **/
+  
+  app.use(require('compression')());
 
   app.set('views', __dirname + '/views');
   app.set('view engine', 'handlebars');
   app.engine('handlebars', hbs.__express);
 
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.query());
-  app.use(express.cookieParser(CONF.app.cookie_secret));
-  app.use(express.session());
-
-  //app.use(express.responseTime());
+  var bodyParser = require('body-parser');
+  // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({extended: true}))  
+  // parse application/json
+  app.use(bodyParser.json())
+  
+  app.use(require('connect-multiparty')());
+  app.use(require('method-override')('X-HTTP-Method-Override'));
+  app.use(require('express-session')({secret: CONF.app.cookie_secret, resave: false, saveUninitialized: false}));
+  app.use(require('csurf')());
+  
+  //app.use(require('response-time')());
 
   // This is not needed if you handle static files with, say, Nginx (recommended in production!)
   // Additionally you should probably pre-compile your LESS stylesheets in production
@@ -60,15 +67,11 @@ exports.setup = function(callback) {
     pub_dir = root_dir + pub_dir;
 
     app.use(require('less-middleware')(pub_dir ));
-    app.use(express.static(pub_dir));
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    app.use(require('serve-static')(pub_dir));
+    app.use(require('errorhandler')({ dumpExceptions: true, showStack: true }));
   }
 
   callback(app);
-
-  //-- ATTENTION: make sure app.router and errorHandler are the very last two app.use() calls
-  //-- ATTENTION: and in the sequence they are in, or it won't work!!!
-  app.use(app.router);
 
   // Catch-all error handler. Modify as you see fit, but don't overuse.
   // Throwing exceptions is not how we normally handle errors in Node.

@@ -1,5 +1,5 @@
 { "name" : "nodebootstrap-server"
-, "version"     : "0.1.0"
+, "version"     : "1.0.0"
 , "description" : "Server Component of NodeBootstrap"
 , "author"      : "Irakli Nadareishvili"
 , "license" : {
@@ -16,7 +16,21 @@
   }
 , "dependencies": {
     "yaml"               : "*"
-  , "express"            : "3.x"
+  , "express"            : "4.x"
+  
+  , "compression"        : "1.x"
+  , "csurf"              : "1.x"
+  , "body-parser"        : "1.x"
+  , "method-override"    : "2.x"
+  , "qs"                 : "0.x"
+  , "method-override"    : "2.x"
+  , "cookies"            : "0.x"
+  , "express-session"    : "1.x"
+  , "connect-multiparty" : "1.x"
+  , "errorhandler"       : "1.x"
+  , "serve-static"       : "1.x"
+  , "response-time"      : "2.x"
+  
   , "config"             : "*"
   , "hbs"                : "2.x"
   , "less"               : "1.x"
@@ -25,8 +39,7 @@
   , "metalogger"         : "*"
   }
 , "devDependencies" : {
-    "assert" : "*"
-    , "should" : "*"
+      "should" : "*"
     , "mocha"  : "*"
   }
 , "scripts": {
