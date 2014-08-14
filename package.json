@@ -22,7 +22,7 @@
   , "csurf"              : "1.x"
   , "body-parser"        : "1.x"
   , "method-override"    : "2.x"
-  , "qs"                 : "0.x"
+  , "qs"                 : "1.x"
   , "method-override"    : "2.x"
   , "cookies"            : "0.x"
   , "express-session"    : "1.x"
