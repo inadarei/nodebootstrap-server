@@ -53,9 +53,11 @@ exports.setup = function(callback) {
   app.use(require('connect-multiparty')());
   app.use(require('method-override')('X-HTTP-Method-Override'));
   app.use(require('express-session')({secret: CONF.app.cookie_secret, resave: false, saveUninitialized: false}));
-  app.use(require('csurf')());
   
-  //app.use(require('response-time')());
+  if (('app' in CONF) && ('csrf' in CONF.app) && CONF.app.csrf === true) {
+    app.use(require('csurf')());
+    log.notice("CSRF protection turned on. ATTENTION: this may create problems if you use NodeBootstrap to build APIs!");
+  }
 
   // This is not needed if you handle static files with, say, Nginx (recommended in production!)
   // Additionally you should probably pre-compile your LESS stylesheets in production
