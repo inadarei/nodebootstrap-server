@@ -39,8 +39,6 @@ exports.setup = function(callback) {
   
   app.use(require('compression')());
 
-  app.set('views', __dirname + '/views');
-
   var bodyParser = require('body-parser');
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({extended: true}))  
