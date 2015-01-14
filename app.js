@@ -2,7 +2,6 @@ var express = require('express')
   , app     = express()
   , log     = require('metalogger')()
   , cluster = require('cluster')
-  , hbs     = require('hbs')
   , CONF    = require('config');
 
 exports = module.exports;
@@ -39,10 +38,6 @@ exports.setup = function(callback) {
   /** http://webapplog.com/migrating-express-js-3-x-to-4-x-middleware-route-and-other-changes/ **/
   
   app.use(require('compression')());
-
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'handlebars');
-  app.engine('handlebars', hbs.__express);
 
   var bodyParser = require('body-parser');
   // parse application/x-www-form-urlencoded
