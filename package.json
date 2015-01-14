@@ -32,7 +32,6 @@
   , "response-time"      : "2.x"
   
   , "config"             : "*"
-  , "hbs"                : "2.x"
   , "less"               : "1.x"
   , "less-middleware"    : "1.0.x"
   , "underscore"         : "1.x"
