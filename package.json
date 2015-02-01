@@ -15,7 +15,7 @@
     "node": ">=0.8.8"
   }
 , "dependencies": {
-    "yaml"               : "*"
+    "yaml"               : "*"  
   , "express"            : "4.x"
   
   , "compression"        : "1.x"
@@ -37,6 +37,7 @@
   , "less-middleware"    : "1.0.x"
   , "underscore"         : "1.x"
   , "metalogger"         : "*"
+  , "nodebootstrap-clustering" : "*"  
   }
 , "devDependencies" : {
       "should" : "*"
