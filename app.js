@@ -96,9 +96,11 @@ module.parent.exports.setAppDefaults = function(initapp) {
 var catchAllErrHandler = function catchAllErrorHandler(err, req, res, next){
   // Emergency: means system is unusable
   log.emergency(err.stack);
-  // @see: https://github.com/ForbesLindesay/connect-roles/issues/41
-  var status = 500;
-  (res.sendStatus || res.send).bind(res)(status);
+  if ('function' === typeof res.sendStatus) {
+    res.sendStatus(500);
+  } else {
+    res.send(500);
+  }
 
   // We aren't in the business of hiding exceptions under the rug. It should
   // still crush the process. All we want is: to properly log the error before
