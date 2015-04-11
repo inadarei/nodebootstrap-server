@@ -7,6 +7,9 @@ var express = require('express')
 
 exports = module.exports;
 
+// Export the handlebars instance so that helpers can be registered for templates.
+exports.hbs = hbs;
+
 exports.setup = function(callback) {
   configure_logging();
     
