@@ -37,7 +37,8 @@ exports.setup = function(callback) {
   }
 
   module.parent.exports.setAppDefaults(app);
-  callback(app, http);
+    app.http = http; // Expose the original http object, for socket.io support or other needs.
+  callback(app);
 };
 
 module.parent.exports.setAppDefaults = function(initapp) {
