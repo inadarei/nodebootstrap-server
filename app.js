@@ -57,6 +57,7 @@ module.parent.exports.setAppDefaults = function(initapp) {
 
   someapp.set('view engine', 'handlebars');
   someapp.engine('handlebars', hbs.__express);
+    someapp.nb.views.hbs = hbs;
   someapp.set('views', root_dir + '/views');
   //app.set("view options", { layout: appDir + '/views' });
 
