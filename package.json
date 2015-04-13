@@ -1,5 +1,5 @@
 { "name" : "nodebootstrap-server"
-, "version"     : "1.4.1"
+, "version"     : "1.5.0"
 , "description" : "Server Component of NodeBootstrap"
 , "author"      : "Irakli Nadareishvili"
 , "license" : {
@@ -32,7 +32,6 @@
   , "response-time"      : "2.x"
   
   , "config"             : "*"
-  , "hbs"                : "3.x"
   , "less"               : "1.x"
   , "less-middleware"    : "1.0.x"
   , "underscore"         : "1.x"

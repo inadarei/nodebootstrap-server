@@ -2,7 +2,6 @@ var express = require('express')
   , app     = express()
   , log     = require('metalogger')()
   , cluster = require('cluster')
-  , hbs     = require('hbs')
   , CONF    = require('config')
   , http    = require('http');
 
@@ -52,14 +51,8 @@ module.parent.exports.setAppDefaults = function(initapp) {
 
   someapp.use(require('compression')());
 
-  //console.log("---------- " + __dirname + '/views');
-  //console.log("~~~~~~~~~~~~~~~~~~" + root_dir + '/views');
-
-  someapp.set('view engine', 'handlebars');
-  someapp.engine('handlebars', hbs.__express);
   someapp.set('views', root_dir + '/views');
   //app.set("view options", { layout: appDir + '/views' });
-
 
   var bodyParser = require('body-parser');
   // parse application/x-www-form-urlencoded
