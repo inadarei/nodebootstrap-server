@@ -62,7 +62,7 @@ exports.setup = function(callback) {
   
   // Catch-all error handler. Please keep in mind this is the last-resort measure.
   // Throwing exceptions is not how we normally handle errors in Node.
-  someapp.use(catchAllErrHandler);
+  app.use(catchAllErrHandler);
 };
 
 module.parent.exports.setAppDefaults = function(initapp) {
