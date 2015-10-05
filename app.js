@@ -7,6 +7,26 @@ var express = require('express')
 
 exports = module.exports;
 
+var catchAllErrHandler = function catchAllErrorHandler(err, req, res, next){
+  // Emergency: means system is unusable
+  log.emergency(err.stack);
+  if ('function' === typeof res.sendStatus) {
+    res.sendStatus(500);
+  } else {
+    res.send(500);
+  }
+
+  // We aren't in the business of hiding exceptions under the rug. It should
+  // still crush the process. All we want is: to properly log the error before
+  // that happens.
+  //
+  // Clustering code in the lib/clustering module will restart the crashed process.
+  // Make sure to always run clustering in production!
+  setTimeout(function() { // Give a chance for response to be sent, before killing the process
+    process.exit(1);
+  }, 10);
+};
+
 exports.setup = function(callback) {
   configure_logging();
 
@@ -36,8 +56,13 @@ exports.setup = function(callback) {
   }
 
   module.parent.exports.setAppDefaults(app);
-    app.http = http; // Expose the original http object, for socket.io support or other needs.
+  app.http = http; // Expose the original http object, for socket.io support or other needs.
+  
   callback(app);
+  
+  // Catch-all error handler. Please keep in mind this is the last-resort measure.
+  // Throwing exceptions is not how we normally handle errors in Node.
+  someapp.use(catchAllErrHandler);
 };
 
 module.parent.exports.setAppDefaults = function(initapp) {
@@ -81,32 +106,8 @@ module.parent.exports.setAppDefaults = function(initapp) {
     someapp.use(require('errorhandler')({ dumpExceptions: true, showStack: true }));
   }
 
-  // Catch-all error handler. Modify as you see fit, but don't overuse.
-  // Throwing exceptions is not how we normally handle errors in Node.
-  someapp.use(catchAllErrHandler);
-
   if (typeof initapp === 'undefined') return someapp;
 }
-
-var catchAllErrHandler = function catchAllErrorHandler(err, req, res, next){
-  // Emergency: means system is unusable
-  log.emergency(err.stack);
-  if ('function' === typeof res.sendStatus) {
-    res.sendStatus(500);
-  } else {
-    res.send(500);
-  }
-
-  // We aren't in the business of hiding exceptions under the rug. It should
-  // still crush the process. All we want is: to properly log the error before
-  // that happens.
-  //
-  // Clustering code in the lib/clustering module will restart the crashed process.
-  // Make sure to always run clustering in production!
-  setTimeout(function() { // Give a chance for response to be sent, before killing the process
-    process.exit(1);
-  }, 10);
-};
 
 function configure_logging() {
   if ('log' in CONF) {
