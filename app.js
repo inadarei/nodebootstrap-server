@@ -7,26 +7,6 @@ var express = require('express')
 
 exports = module.exports;
 
-var catchAllErrHandler = function catchAllErrorHandler(err, req, res, next){
-  // Emergency: means system is unusable
-  log.emergency(err.stack);
-  if ('function' === typeof res.sendStatus) {
-    res.sendStatus(500);
-  } else {
-    res.send(500);
-  }
-
-  // We aren't in the business of hiding exceptions under the rug. It should
-  // still crush the process. All we want is: to properly log the error before
-  // that happens.
-  //
-  // Clustering code in the lib/clustering module will restart the crashed process.
-  // Make sure to always run clustering in production!
-  setTimeout(function() { // Give a chance for response to be sent, before killing the process
-    process.exit(1);
-  }, 10);
-};
-
 exports.setup = function(callback) {
   configure_logging();
 
@@ -59,10 +39,6 @@ exports.setup = function(callback) {
   app.http = http; // Expose the original http object, for socket.io support or other needs.
   
   callback(app);
-  
-  // Catch-all error handler. Please keep in mind this is the last-resort measure.
-  // Throwing exceptions is not how we normally handle errors in Node.
-  app.use(catchAllErrHandler);
 };
 
 module.parent.exports.setAppDefaults = function(initapp) {
@@ -80,10 +56,13 @@ module.parent.exports.setAppDefaults = function(initapp) {
   //app.set("view options", { layout: appDir + '/views' });
 
   var bodyParser = require('body-parser');
+
   // parse application/x-www-form-urlencoded
-  someapp.use(bodyParser.urlencoded({extended: true}))
-  // parse application/json
-  someapp.use(bodyParser.json())
+  someapp.use(bodyParser.urlencoded({extended: true}));
+  // parse application/anything+json
+  someapp.use(bodyParser.json({ type: 'application/*+json' }))
+  // parse anything else
+  someapp.use(bodyParser.raw());
 
   someapp.use(require('connect-multiparty')());
   someapp.use(require('method-override')('X-HTTP-Method-Override'));
@@ -103,7 +82,6 @@ module.parent.exports.setAppDefaults = function(initapp) {
 
     someapp.use(require('less-middleware')(pub_dir ));
     someapp.use(require('serve-static')(pub_dir));
-    someapp.use(require('errorhandler')({ dumpExceptions: true, showStack: true }));
   }
 
   if (typeof initapp === 'undefined') return someapp;

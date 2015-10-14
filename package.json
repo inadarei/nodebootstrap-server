@@ -27,7 +27,6 @@
   , "cookies"            : "0.x"
   , "express-session"    : "1.x"
   , "connect-multiparty" : "1.x"
-  , "errorhandler"       : "1.x"
   , "serve-static"       : "1.x"
   , "response-time"      : "2.x"
   
