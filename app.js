@@ -8,6 +8,7 @@ var express = require('express')
 exports = module.exports;
 
 exports.setup = function(callback) {
+
   configure_logging();
 
   var isClusterMaster = (cluster.isMaster && (process.env.NODE_CLUSTERED == 1));
@@ -19,7 +20,7 @@ exports.setup = function(callback) {
     is_http_thread = false;
   }
 
-  log.debug("is http thread? " + is_http_thread);
+  log.debug("is current thread a http thread? " + is_http_thread);
 
   if (isClusterMaster) {
     require('nodebootstrap-clustering').setup();
@@ -30,17 +31,21 @@ exports.setup = function(callback) {
     http.listen(CONF.app.port);
   }
 
-// If we are not running a cluster at all:
+  // If we are not running a cluster at all:
   if (!isClusterMaster && cluster.isMaster) {
     log.notice("Express server instance listening on port " + CONF.app.port);
   }
 
   module.parent.exports.setAppDefaults(app);
   app.http = http; // Expose the original http object, for socket.io support or other needs.
-  
+
   callback(app);
 };
 
+/**
+ * Setting up sensible default configurations
+ * @param initapp optional. You can pass-in the app that should be configured.
+ */
 module.parent.exports.setAppDefaults = function(initapp) {
 
   var someapp = initapp || express();
@@ -87,6 +92,10 @@ module.parent.exports.setAppDefaults = function(initapp) {
   if (typeof initapp === 'undefined') return someapp;
 }
 
+/**
+ * Default configuration of logging
+ *
+ */
 function configure_logging() {
   if ('log' in CONF) {
 
