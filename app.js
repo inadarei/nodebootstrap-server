@@ -94,7 +94,6 @@ module.parent.exports.setAppDefaults = function(initapp) {
 
 /**
  * Default configuration of logging
- *
  */
 function configure_logging() {
   if ('log' in CONF) {
