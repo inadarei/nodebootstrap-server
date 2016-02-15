@@ -7,8 +7,11 @@ var express = require('express')
 
 exports = module.exports;
 
-exports.setup = function(callback) {
+exports.setup = function(initapp, callback) {
 
+  if (typeof initapp !== 'undefined' && initapp) {
+    app = initapp;
+  }
   configure_logging();
 
   var isClusterMaster = (cluster.isMaster && (process.env.NODE_CLUSTERED == 1));
@@ -20,7 +23,7 @@ exports.setup = function(callback) {
     is_http_thread = false;
   }
 
-  log.debug("is current thread a http thread? " + is_http_thread);
+  log.debug("is current thread a HTTP thread? " + is_http_thread);
 
   if (isClusterMaster) {
     require('nodebootstrap-clustering').setup();
@@ -53,41 +56,18 @@ module.parent.exports.setAppDefaults = function(initapp) {
   // var root_dir = require('path').dirname(module.parent.filename);
   var root_dir = require('path').dirname(require.main.filename);
 
-  /** http://webapplog.com/migrating-express-js-3-x-to-4-x-middleware-route-and-other-changes/ **/
-
-  someapp.use(require('compression')());
-
-  someapp.set('views', root_dir + '/views');
-  //app.set("view options", { layout: appDir + '/views' });
-
   var bodyParser = require('body-parser');
-
   // parse application/x-www-form-urlencoded
   someapp.use(bodyParser.urlencoded({extended: true}));
   // parse application/anything+json
   someapp.use(bodyParser.json({ type: 'application/*+json' }))
+  // parse text/plain
+  someapp.use(bodyParser.text({ type: 'text/plain'}));
   // parse anything else
   someapp.use(bodyParser.raw());
 
   someapp.use(require('connect-multiparty')());
   someapp.use(require('method-override')('X-HTTP-Method-Override'));
-
-  if (('app' in CONF) && ('csrf' in CONF.app) && CONF.app.csrf === true) {
-    someapp.use(require('csurf')());
-    log.notice("CSRF protection turned on. ATTENTION: this may create problems if you use NodeBootstrap to build APIs!");
-  }
-
-  // This is not needed if you handle static files with, say, Nginx (recommended in production!)
-  // Additionally you should probably pre-compile your LESS stylesheets in production
-  // Last, but not least: Express' default error handler is very useful in dev, but probably not in prod.
-  if (('NODE_SERVE_STATIC' in process.env) && process.env['NODE_SERVE_STATIC'] == 1) {
-    var pub_dir = CONF.app.pub_dir;
-    if (pub_dir[0] != '/') { pub_dir = '/' + pub_dir; } // humans are forgetful
-    pub_dir = root_dir + pub_dir;
-
-    someapp.use(require('less-middleware')(pub_dir ));
-    someapp.use(require('serve-static')(pub_dir));
-  }
 
   if (typeof initapp === 'undefined') return someapp;
 }

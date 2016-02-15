@@ -3,13 +3,10 @@
   "version": "1.8.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
-  },  
+  },
   "description": "Server Component of NodeBootstrap",
   "author": "Irakli Nadareishvili",
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/inadarei/nodebootstrap-server/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "main": "app.js",
   "repository": {
     "type": "git",
