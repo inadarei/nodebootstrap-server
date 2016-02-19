@@ -8,14 +8,18 @@ var express = require('express')
 exports = module.exports;
 
 exports.setup = function(initapp, callback) {
-
-  // fix backward compatibility shim
+  
   if (typeof callback !== 'undefined' && initapp) {
     app = initapp;
   } else if(typeof callback === 'undefined') {
+    // This is to support old clients who do not
+    //  know about the "initapp" parameter and are
+    //  only passing callback, through.
     callback = initapp;
   } else {
-    // probably we should do something here, but I'm not sure what
+    // remaining condition:
+    // if initapp is false but is actually passed
+    // the right thing to do is to ignore it.
   }
   
   configure_logging();
