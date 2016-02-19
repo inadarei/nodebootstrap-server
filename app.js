@@ -8,10 +8,20 @@ var express = require('express')
 exports = module.exports;
 
 exports.setup = function(initapp, callback) {
-
-  if (typeof initapp !== 'undefined' && initapp) {
+  
+  if (typeof callback !== 'undefined' && initapp) {
     app = initapp;
+  } else if(typeof callback === 'undefined') {
+    // This is to support old clients who do not
+    //  know about the "initapp" parameter and are
+    //  only passing callback, through.
+    callback = initapp;
+  } else {
+    // remaining condition:
+    // if initapp is false but is actually passed
+    // the right thing to do is to ignore it.
   }
+  
   configure_logging();
 
   var isClusterMaster = (cluster.isMaster && (process.env.NODE_CLUSTERED == 1));
