@@ -9,9 +9,15 @@ exports = module.exports;
 
 exports.setup = function(initapp, callback) {
 
-  if (typeof initapp !== 'undefined' && initapp) {
+  // fix backward compatibility shim
+  if (typeof callback !== 'undefined' && initapp) {
     app = initapp;
+  } else if(typeof callback === 'undefined') {
+    callback = initapp;
+  } else {
+    // probably we should do something here, but I'm not sure what
   }
+  
   configure_logging();
 
   var isClusterMaster = (cluster.isMaster && (process.env.NODE_CLUSTERED == 1));
