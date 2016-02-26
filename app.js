@@ -56,6 +56,25 @@ exports.setup = function(initapp, callback) {
 };
 
 /**
+ * Setup for the testing framework of nodebootstrap
+ * Does not include clustering as this is not usually needed for endpoint testing
+ * @param initapp
+ * @param callback
+ */
+exports.setupTest = function(initapp, callback) {
+  var app = initapp || express();
+
+  configure_logging();
+
+  var server = http.createServer(app);
+
+  module.parent.exports.setAppDefaults(app);
+  app.http = server;
+
+  callback(app);
+};
+
+/**
  * Setting up sensible default configurations
  * @param initapp optional. You can pass-in the app that should be configured.
  */
