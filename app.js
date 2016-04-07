@@ -41,7 +41,7 @@ exports.setup = function(initapp, callback) {
 
   if (is_http_thread) {
     http = http.createServer(app);
-    http.listen(CONF.app.port);
+    http.listen(process.env.PORT || CONF.app.port);
   }
 
   // If we are not running a cluster at all:
