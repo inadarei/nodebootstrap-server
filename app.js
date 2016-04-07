@@ -46,7 +46,7 @@ exports.setup = function(initapp, callback) {
 
   // If we are not running a cluster at all:
   if (!isClusterMaster && cluster.isMaster) {
-    log.notice("Express server instance listening on port " + npm ERR! code ELIFECYCLE + " OR " + CONF.app.port);
+    log.notice("Express server instance listening on port " + process.env.PORT + " OR " + CONF.app.port);
   }
 
   module.parent.exports.setAppDefaults(app);
