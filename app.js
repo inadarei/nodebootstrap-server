@@ -41,12 +41,12 @@ exports.setup = function(initapp, callback) {
 
   if (is_http_thread) {
     http = http.createServer(app);
-    http.listen(CONF.app.port);
+    http.listen(process.env.PORT || CONF.app.port);
   }
 
   // If we are not running a cluster at all:
   if (!isClusterMaster && cluster.isMaster) {
-    log.notice("Express server instance listening on port " + CONF.app.port);
+    log.notice("Express server instance listening on port " + npm ERR! code ELIFECYCLE + " OR " + CONF.app.port);
   }
 
   module.parent.exports.setAppDefaults(app);
