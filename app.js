@@ -8,7 +8,15 @@ var express = require('express')
 exports = module.exports;
 
 exports.setup = function(initapp, callback) {
-  
+
+  // Default to configuration value, but let Heroku/others override via env
+  var server_port = CONF.app.port;
+
+  // Support for Heroku. Heroku expects Node apps to start on $PORT
+  if ('undefined' !== typeof process.env.PORT && process.env.PORT) {
+    server_port = process.env.PORT;
+  }
+
   if (typeof callback !== 'undefined' && initapp) {
     app = initapp;
   } else if(typeof callback === 'undefined') {
@@ -21,7 +29,7 @@ exports.setup = function(initapp, callback) {
     // if initapp is false but is actually passed
     // the right thing to do is to ignore it.
   }
-  
+
   configure_logging();
 
   var isClusterMaster = (cluster.isMaster && (process.env.NODE_CLUSTERED == 1));
@@ -41,12 +49,12 @@ exports.setup = function(initapp, callback) {
 
   if (is_http_thread) {
     http = http.createServer(app);
-    http.listen(CONF.app.port);
+    http.listen(server_port);
   }
 
   // If we are not running a cluster at all:
   if (!isClusterMaster && cluster.isMaster) {
-    log.notice("Express server instance listening on port " + CONF.app.port);
+    log.notice("Express server instance listening on port " + server_port);
   }
 
   module.parent.exports.setAppDefaults(app);
