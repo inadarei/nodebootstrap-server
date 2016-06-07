@@ -97,7 +97,9 @@ module.parent.exports.setAppDefaults = function(initapp) {
   // parse application/x-www-form-urlencoded
   someapp.use(bodyParser.urlencoded({extended: true}));
   // parse application/anything+json
-  someapp.use(bodyParser.json({ type: 'application/*+json' }))
+  someapp.use(bodyParser.json({ type: 'application/*+json' }));
+  // parse application/json
+  someapp.use(bodyParser.json({ type: 'application/json' }));
   // parse text/plain
   someapp.use(bodyParser.text({ type: 'text/plain'}));
   // parse anything else
