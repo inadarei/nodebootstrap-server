@@ -92,18 +92,18 @@ module.parent.exports.setAppDefaults = function(initapp) {
 
   // var root_dir = require('path').dirname(module.parent.filename);
   var root_dir = require('path').dirname(require.main.filename);
-
+  var defaultLimit = '50mb';
   var bodyParser = require('body-parser');
   // parse application/x-www-form-urlencoded
-  someapp.use(bodyParser.urlencoded({extended: true, limit: '512mb'}));
+  someapp.use(bodyParser.urlencoded({extended: true, limit: defaultLimit }));
   // parse application/anything+json
-  someapp.use(bodyParser.json({ type: 'application/*+json', limit: '512mb' }));
+  someapp.use(bodyParser.json({ type: 'application/*+json', limit: defaultLimit }));
   // parse application/json
-  someapp.use(bodyParser.json({ type: 'application/json', limit: '512mb' }));
+  someapp.use(bodyParser.json({ type: 'application/json', limit: defaultLimit }));
   // parse text/plain
-  someapp.use(bodyParser.text({ type: 'text/plain', limit: '512mb'}));
+  someapp.use(bodyParser.text({ type: 'text/plain', limit: defaultLimit }));
   // parse anything else
-  someapp.use(bodyParser.raw({ limit: '512mb'}));
+  someapp.use(bodyParser.raw({ limit: defaultLimit }));
 
   someapp.use(require('connect-multiparty')());
   someapp.use(require('method-override')('X-HTTP-Method-Override'));
