@@ -95,15 +95,15 @@ module.parent.exports.setAppDefaults = function(initapp) {
 
   var bodyParser = require('body-parser');
   // parse application/x-www-form-urlencoded
-  someapp.use(bodyParser.urlencoded({extended: true}));
+  someapp.use(bodyParser.urlencoded({extended: true, limit: '512mb'}));
   // parse application/anything+json
-  someapp.use(bodyParser.json({ type: 'application/*+json' }));
+  someapp.use(bodyParser.json({ type: 'application/*+json', limit: '512mb' }));
   // parse application/json
-  someapp.use(bodyParser.json({ type: 'application/json' }));
+  someapp.use(bodyParser.json({ type: 'application/json', limit: '512mb' }));
   // parse text/plain
-  someapp.use(bodyParser.text({ type: 'text/plain'}));
+  someapp.use(bodyParser.text({ type: 'text/plain', limit: '512mb'}));
   // parse anything else
-  someapp.use(bodyParser.raw());
+  someapp.use(bodyParser.raw({ limit: '512mb'}));
 
   someapp.use(require('connect-multiparty')());
   someapp.use(require('method-override')('X-HTTP-Method-Override'));
