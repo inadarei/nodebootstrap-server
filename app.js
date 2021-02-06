@@ -7,7 +7,7 @@ let express = require('express'),
 
 exports = module.exports;
 
-exports.setup = function (initapp, callback) {
+exports.setup = function (initapp, callback, setupDefaults = true) {
 
   // Default to configuration value, but let Heroku/others override via env
   let server_port = CONF.app.port;
@@ -57,7 +57,10 @@ exports.setup = function (initapp, callback) {
     log.notice('Express server instance listening on port ' + server_port);
   }
 
-  setAppDefaults(app);
+  if (setupDefaults === true) {
+    setAppDefaults(app);
+  }
+
   app.http = http; // Expose the original http object, for socket.io support or other needs.
 
   callback(app);
