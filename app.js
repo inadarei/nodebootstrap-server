@@ -44,7 +44,7 @@ exports.setup = function(initapp, callback) {
   log.debug("is current thread a HTTP thread? " + is_http_thread);
 
   if (isClusterMaster) {
-    require('nodebootstrap-clustering').setup();
+    require('./nodebootstrap-clustering').setup();
   }
 
   if (is_http_thread) {

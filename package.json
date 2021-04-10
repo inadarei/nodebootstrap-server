@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "body-parser": "^1.18.2",
-    "config": "1.29.2",
+    "config": "^3.3.6",
     "connect-multiparty": "^2.1.0",
     "express": "^4.16.2",
-    "metalogger": "2.2.1",
-    "method-override": "2.3.10",
-    "nodebootstrap-clustering": "^2.0.0"
+    "metalogger": "^2.2.1",
+    "method-override": "^3.0.0",
+    "lodash.foreach": "^4.5.0"
   }
 }
