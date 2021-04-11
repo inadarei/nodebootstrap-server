@@ -1,4 +1,4 @@
-var cluster = require('cluster')
+const cluster = require('cluster')
     , each  = require('lodash.foreach')
     , log   = require('metalogger')();
 
@@ -7,10 +7,10 @@ exports = module.exports;
 exports.setup = function() {
   log.notice("Starting app in clustered mode");
 
-  var numCPUs  = require('os').cpus().length;
-  var timeouts = [];
+  const numCPUs  = require('os').cpus().length;
+  const timeouts = [];
 
-  for (var i = 0; i < numCPUs; i++) {
+  for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
 
@@ -47,7 +47,7 @@ exports.setup = function() {
   // Trick suggested by Ian Young (https://github.com/isaacs/node-supervisor/issues/40#issuecomment-4330946)
   // to make cluster and supervisor play nicely together:
   if (process.env.NODE_HOT_RELOAD == 1) {
-    var signals = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
+    const signals = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
     each(signals, function forEachQuitSignal(signal){
       process.on(signal, function onQuitSignals(){
         each(cluster.workers, function destroyWorker(worker){

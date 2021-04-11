@@ -37,7 +37,7 @@
     "tape": "^5.2.2"
   },
   "scripts": {
-    "lint": "eslint lib test",
+    "lint": "eslint lib test *.js",
     "lint-fix": "eslint --fix lib test",
     "pretest": "npm run lint",
     "test": "export NODE_TAPE_OBJECT_PRINT_DEPTH=infinity && nyc blue-tape test/**/*-test.js | tap-nirvana ",
