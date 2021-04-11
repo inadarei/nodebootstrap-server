@@ -27,7 +27,7 @@ test('Basic Express Response', async t => {
   } catch (err) {
     t.fail(err);
   } finally {
-    //server.close();
+    server.close();
   }
   
   
@@ -62,7 +62,8 @@ test('Ability To Process JSON Input', async t => {
     t.equal(data.rsv, 100, 'proper response payload for /jsonParser');  
   } catch (err) {
     t.fail(err);
+  } finally {
+    server.close();
   }
-  //server.close();
   
 });
