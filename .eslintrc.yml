@@ -1,0 +1,50 @@
+---
+
+env:
+  es6: true
+  node: true
+  mocha: true
+  jquery: false
+  browser: false
+
+extends: 'eslint:recommended'
+
+parserOptions:
+  ecmaVersion: 8
+  sourceType: module
+  plugins:
+  - mocha
+
+  # http://eslint.org/docs/rules/  
+rules:
+  quotes: 
+    - off
+  indent: 
+    - off
+  no-unused-vars: 
+    - off
+  prefer-const: warn
+  no-var: warn
+  complexity:
+    - warn
+    - max: 5
+  linebreak-style:
+    - error
+    - unix
+  semi:
+    - error
+    - always
+  no-cond-assign:
+    - warn
+    - except-parens
+  no-console: 
+    - off
+  no-useless-escape: 
+    - off
+  eol-last:
+    - warn
+    - always
+  no-multiple-empty-lines:
+    - warn
+    - maxEOF: 1
+      max: 2
