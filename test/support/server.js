@@ -1,14 +1,14 @@
 const log     = require('metalogger')();
 const { json } = require('body-parser');
 const express = require('express');
-const app = express();
+let app = express();
 
 function responder(req, res) {
     res.send('Hello World!');
 }
 
 function jsonResponder(req, res) {
-    const input = JSON.stringify(req.body);
+    const input = req.body;
     log.info("wtf", input);
     res.json({rsv: 100});
 }
