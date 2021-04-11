@@ -27,7 +27,7 @@ rules:
   no-var: warn
   complexity:
     - warn
-    - max: 5
+    - max: 10
   linebreak-style:
     - error
     - unix

@@ -3,5 +3,5 @@ module.exports.serverUri = (server, host="", path="") => {
 
   const port = server.address().port;
   const protocol = 'http';
-  return protocol + '://' + (host || '127.0.0.1') + ':' + port + path;
+  return protocol + '://' + (host || '0.0.0.0') + ':' + port + path;
 };

@@ -1,4 +1,5 @@
 const log     = require('metalogger')();
+const { json } = require('body-parser');
 const express = require('express');
 const app = express();
 
@@ -6,15 +7,19 @@ function responder(req, res) {
     res.send('Hello World!');
 }
 
+function jsonResponder(req, res) {
+    const input = JSON.stringify(req.body);
+    log.info("wtf", input);
+    res.json({rsv: 100});
+}
+
 app.get('/', responder);
 app.get('/hello', responder);
 
-// Note: listening on port "0" results to listening on random, free port. Avoids conflicts.
-module.exports.getServer = () => {
-    const server = app.listen(0, function () {
-        const port = server.address().port;
-        //log.info(`Test server listening at port ${port} \n`);
-    });
+app.post('/jsonParser', jsonResponder);
 
-    return server;
+module.exports.getServer = () => {
+    const serverFactory = require('../../lib');
+    const testServer =  serverFactory.getTestServer(app);
+    return testServer;
 };
