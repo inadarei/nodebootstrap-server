@@ -9,7 +9,7 @@ const nb_server = require('../../lib');
 test('Basic Express Response', async t => {
 
   const responder = (req, res) => {
-    res.send('Hello World!');
+    res.send('Hello World!').end();
   };
 
   const app  = nb_server.setupTest();
@@ -27,7 +27,7 @@ test('Basic Express Response', async t => {
   } catch (err) {
     t.fail(err);
   } finally {
-    server.close();
+    //server.close();
   }
   
   
@@ -36,9 +36,9 @@ test('Basic Express Response', async t => {
 test('Ability To Process JSON Input', async t => {
 
   const jsonResponder = (req, res) => {
+    // This is what verified that body gets parsed!
     const input = req.body;
-    log.info("wtf", input.rsv);
-    res.json({rsv: input.rsv});
+    res.json({rsv: input.rsv}).end();
   };
 
   const app  = nb_server.setupTest();
@@ -63,6 +63,6 @@ test('Ability To Process JSON Input', async t => {
   } catch (err) {
     t.fail(err);
   }
-  server.close();
+  //server.close();
   
 });
