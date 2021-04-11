@@ -42,6 +42,7 @@
     "pretest": "npm run lint",
     "test": "export NODE_TAPE_OBJECT_PRINT_DEPTH=infinity && nyc blue-tape test/**/*-test.js | tap-nirvana ",
     "test-fast": "blue-tape test/**/*-test.js | tap-nirvana",
+    "tape": "blue-tape test/**/*-test.js",
     "test-cov": "nyc blue-tape test/**/*-test.js"
   },
   "nyc": {
