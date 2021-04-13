@@ -26,24 +26,23 @@
     "helmet": "*"
   },
   "devDependencies": {
-    "blue-tape": "^1.0.0",
+    "tape": "^5.2.2",
     "coveralls": "^3.0.0",
     "eslint": "^7.24.0",
     "fakepromise": "^1.0.5",
     "metalogger": "^2.2.0",
     "node-fetch": "^2.2.0",
     "nyc": "^15.1",
-    "tap-nirvana": "^1.1.0",
-    "tape": "^5.2.2"
+    "tap-nirvana": "^1.1.0"
   },
   "scripts": {
     "lint": "eslint lib test *.js",
     "lint-fix": "eslint --fix lib test",
     "pretest": "npm run lint",
-    "test": "export NODE_TAPE_OBJECT_PRINT_DEPTH=infinity && nyc blue-tape test/**/*-test.js | tap-nirvana ",
-    "test-fast": "blue-tape test/**/*-test.js | tap-nirvana",
-    "tape": "blue-tape test/**/*-test.js",
-    "test-cov": "nyc blue-tape test/**/*-test.js"
+    "test": "nyc tape test/**/*-test.js | tap-nirvana ",
+    "test-fast": "tape test/**/*-test.js | tap-nirvana",
+    "tape": "tape test/**/*-test.js",
+    "test-cov": "nyc tape test/**/*-test.js"
   },
   "nyc": {
     "check-coverage": true,

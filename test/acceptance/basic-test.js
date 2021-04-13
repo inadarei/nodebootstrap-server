@@ -1,4 +1,5 @@
-const test = require('blue-tape');
+//const test = require('blue-tape');
+const test = require('tape');
 const nf = require('node-fetch');
 const log  = require('metalogger')();
 const fp = require('fakepromise');
@@ -6,15 +7,19 @@ const express = require('express');
 const http= require('http');
 
 const nb_server = require('../../lib');
+
 process.env.NODE_CLUSTERED = 0;
 
 test('Empty test to check setup', async t => {
+  t.plan(1);
+
   const res = await nf("https://api.publicapis.org/entries"); 
   const data = await res.json();
-  t.same(data.count, 730);
+  t.equal((data.count > 0), true);
 });
 
 test('Basic Express Response', async t => {
+  t.plan(2);
 
   const responder = (req, res) => {
     res.send('Hello World!').end();
@@ -40,6 +45,7 @@ test('Basic Express Response', async t => {
 });
 
 test('Ability To Process JSON Input', async t => {
+  t.plan(2);
 
   const jsonResponder = (req, res) => {
     // This is what verified that body gets parsed!
